@@ -8,6 +8,59 @@ plugins {
 }
 
 android {
+
+    // Network config
+    tasks.register<DefaultTask>("generateNetworkSecurityConfig"){
+
+        doLast{
+
+            val ip = project.properties["IP"]
+            val file = file("./src/main/res/xml/network_security_config.xml")
+
+
+            file.writeText(
+                    """
+                <network-security-config>
+                    <domain-config cleartextTrafficPermitted="true">
+                        <domain includeSubdomains="true">${ip}</domain>
+                    </domain-config>
+                </network-security-config>
+            """.trimIndent()
+                )
+
+        }
+
+    }
+
+
+    tasks.named("preBuild").configure{
+        dependsOn(tasks.named("generateNetworkSecurityConfig"))
+    }
+
+
+
+
+    buildFeatures {
+        buildConfig = true
+    }
+
+    buildTypes{
+
+
+        debug {
+            // Add the base URL for debug builds
+            buildConfigField("String", "BASE_URL", "\"${project.properties["BASE_URL_DEBUG"]}\"")
+        }
+        release {
+            // Add the base URL for release builds
+            buildConfigField("String", "BASE_URL", "\"${project.properties["BASE_URL_RELEASE"]}\"")
+        }
+
+
+
+    }
+
+
     namespace = "com.socialmediascrollapp"
     compileSdk = 34
 
@@ -55,6 +108,9 @@ android {
 
 dependencies {
 
+
+    // Swipe to refresh
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
 
     // Paging
     implementation ("androidx.paging:paging-runtime-ktx:3.1.1")

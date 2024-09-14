@@ -12,4 +12,6 @@ interface PostsRepository {
     suspend fun clearAllPosts()
 
     suspend fun cachePosts(posts : List<Post>)
+
+    suspend fun changeLike(postId: Int, value : Boolean)
 }

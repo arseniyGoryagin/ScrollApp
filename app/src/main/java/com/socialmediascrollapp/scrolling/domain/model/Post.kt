@@ -10,7 +10,8 @@ data class Post (
     val likes : Long,
     val postId : Long,
     val caption : String,
-    val imgUrl : String
+    val imgUrl : String,
+    val liked : Boolean = false
 ){
 
     companion object{

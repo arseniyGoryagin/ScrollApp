@@ -17,9 +17,15 @@ class PostRemoteMediator(private val repository: PostsRepository) : RemoteMediat
     ): MediatorResult {
 
 
+        println("STATE  =  " + loadType)
+
+        if(loadType == LoadType.PREPEND){
+            return MediatorResult.Success(endOfPaginationReached = false)
+        }
+
+
         return repository.getPosts(10).fold(
             { error ->
-
                 MediatorResult.Error(error)
             },
             { result ->

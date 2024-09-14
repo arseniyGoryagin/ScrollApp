@@ -12,6 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.sample
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -22,4 +23,15 @@ class ScrollViewModel @Inject constructor(
 ) : ViewModel() {
 
         val postsFlow = postsPager.flow.cachedIn(viewModelScope)
+
+
+
+        fun updateLike (postId : Int, value : Boolean){
+                viewModelScope.launch {
+                        repository.changeLike(postId, value)
+                }
+        }
+
+
+
 }

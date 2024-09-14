@@ -22,7 +22,6 @@ class Repository @Inject constructor(
     }
 
 
-
     override suspend fun clearAllPosts() {
         postsDao.clearAll()
     }
@@ -31,7 +30,12 @@ class Repository @Inject constructor(
         val postEntities = posts.map { post ->
             Post.toEntity(post)
         }
+        println("INserting posts")
        postsDao.insertPosts(postEntities)
+    }
+
+    override suspend fun changeLike(postId: Int, value: Boolean) {
+        postsDao.updateLike(postId, value)
     }
 
 

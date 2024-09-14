@@ -20,4 +20,7 @@ interface PostDao {
     @Query("Delete from posts_table")
      suspend  fun clearAll() : Int
 
+    @Query("Update posts_table set liked = :value where id = :id")
+    suspend  fun updateLike (id : Int, value : Boolean)
+
 }
